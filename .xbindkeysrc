@@ -1,0 +1,22 @@
+"/home/marwan/bin/enable-touchpad.sh"
+  control + 2
+"/home/marwan/bin/disable-touchpad.sh"
+  control + 3
+"mpc next"
+  alt + p
+"/home/marwan/bin/mpd-prev"
+  alt + o
+"mpc toggle"
+  control + space
+"terminator"
+  alt+shift + t
+"xbacklight -inc 7 -steps 1 -time 1"
+  alt + n
+"xbacklight -dec 7 -steps 1 -time 1"
+  alt + v
+"/home/marwan/bin/volume-up"
+  alt + i
+"/home/marwan/bin/volume-down"
+  alt + u
+"killall -s TERM xmonad-x86_64-linux"
+  alt + shift + q
