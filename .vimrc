@@ -135,7 +135,6 @@ let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 " fo {{{
 
 set fo=cqrj
-autocmd FileType text setlocal nosmartindent
 
 augroup formatting
   au!
