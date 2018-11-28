@@ -8,8 +8,6 @@
   alt + o
 "mpc toggle"
   control + space
-"terminator"
-  alt+shift + t
 "xbacklight -inc 7 -steps 1 -time 1"
   alt + n
 "xbacklight -dec 7 -steps 1 -time 1"
