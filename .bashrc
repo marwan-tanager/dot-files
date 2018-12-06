@@ -574,7 +574,7 @@ gra()
 gri()
 {
   step=${1:-2}
-  
+
   echo -n $step | egrep -q -i '^[0-9]+$'
 
   if [ $? = 0 ]; then
@@ -792,7 +792,7 @@ gchm()
 grh()
 {
   step=${1:-0}
-  
+
   echo -n $step | egrep -q -i '^[0-9]+$'
 
   if [ $? = 0 ]; then
@@ -1111,12 +1111,12 @@ tm()
 
 tan()
 {
-  task annotate "$@" 
+  task annotate "$@"
 }
 
 treopen()
 {
-  tm "$@" status:pending end: 
+  tm "$@" status:pending end:
 }
 
 tpp()
@@ -1131,12 +1131,12 @@ tpph()
 
 tppm()
 {
-  task "$@" priority:M -ACTIVE 
+  task "$@" priority:M -ACTIVE
 }
 
 tppl()
 {
-  task "$@" priority:L -ACTIVE 
+  task "$@" priority:L -ACTIVE
 }
 
 tp()
@@ -1157,6 +1157,11 @@ tpm()
 tpl()
 {
   task "$@" priority:L
+}
+
+tap()
+{
+  ta "$@" +productivity
 }
 
 tnow()
@@ -1212,6 +1217,7 @@ export TASK_ALIASES=( _t
                       tph
                       tpm
                       tpl
+                      tap
                       tnow
                     )
 
@@ -1221,6 +1227,11 @@ export TASK_ALIASES=( _t
 # This have to exeucte at the end of the file
 
 pwd=$PWD; cd ~/.bash_completion.d; for i in `ls`; do source ./$i; done; cd $pwd
+
+# }}}
+# PATH {{{
+
+export PATH="/home/marwan/.local/bin:/usr/local/bin:$PATH"
 
 # }}}
 # PS1 {{{
@@ -1254,33 +1265,33 @@ fi
 # }}}
 # misc shortcuts {{{
 
-cp() 
-{ 
+cp()
+{
 	builtin command cp -v "$@"
 }
 
-mv() 
-{ 
+mv()
+{
 	builtin command mv -v "$@"
 }
 
-rm() 
-{ 
+rm()
+{
 	builtin command rm -v "$@"
 }
 
-chmod() 
-{ 
+chmod()
+{
 	builtin command chmod -v "$@"
 }
 
-chown() 
-{ 
+chown()
+{
 	builtin command chown -v "$@"
 }
 
-song() 
-{ 
+song()
+{
 	format="file"
 	track="$(mpc -f "%$format%" current)"
 	if echo "$track" | grep -i -q "^http://.*"; then
@@ -1331,12 +1342,14 @@ mkdir()
 
 music()
 {
+  tmux send-keys -t "media:0.0" C-z 'ncmpcpp' Enter
 	$TERMINAL_EMULATOR tmux attach-session -t media 2>/dev/null 1>&2 & disown
 }
 
 mail()
 {
-	$TERMINAL_EMULATOR tmux attach-session -t email 2>/dev/null 1>&2 & disown
+  initialize_mutt_panes
+	$TERMINAL_EMULATOR tmux attach-session -t mail 2>/dev/null 1>&2 & disown
 }
 
 mutt-pub()
@@ -1349,19 +1362,10 @@ mutt-priv()
 	/usr/bin/mutt -F ~/.muttrc.priv
 }
 
-mutt-damlag()
+initialize_mutt_panes()
 {
-	/usr/bin/mutt -F ~/.muttrc.damlag
-}
-
-mutt-instabug()
-{
-	/usr/bin/mutt -F ~/.muttrc.instabug
-}
-
-mutt()
-{
-	/usr/bin/mutt -F "$HOME"/.muttrc.pub
+  tmux send-keys -t "mail:0.0" C-z 'mutt-priv' Enter
+  tmux send-keys -t "mail:1.0" C-z 'mutt-pub' Enter
 }
 
 dlocate()
@@ -1455,11 +1459,6 @@ cam()
 killall()
 {
   command killall -v "$@"
-}
-
-ct()
-{
-  sudo ping -w 3 -n -i 0.001 8.8.8.8
 }
 
 # }}}
