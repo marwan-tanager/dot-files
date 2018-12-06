@@ -1,6 +1,6 @@
 // hints {{{
 
-Hints.characters = '12345890-';
+Hints.characters = 'abcdeghilmnopqrstuvwxyz23489';
 Hints.scrollKeys = '';
 Hints.style("font-size: 11pt; -webkit-text-fill-color: white; background: initial; background-color: orangered;");
 Hints.style("font-size: 11pt; -webkit-text-fill-color: white; background: green;", 'text');
@@ -123,10 +123,6 @@ mapkey('<Ctrl-t>', 'New tab', function(){
   window.open('http://google.com')
 });
 
-mapkey('<Ctrl-m>', 'New tab', function(){
-  tabOpenLink('file:///home/marwan/m.html')
-});
-
 mapkey('<Ctrl-s>', '#12Open Chrome Settings', function() {
   tabOpenLink("chrome://settings");
 });
@@ -138,6 +134,10 @@ mapkey('go', '#8Open a URL in current tab', function() {
 mapkey('<Ctrl-m>', '#3mute/unmute current tab', function() {
     RUNTIME("muteTab"); },
   { domain: /ambient-mixer|noisli|.fm||youtube/ });
+
+mapkey('<Ctrl-m>', 'New tab', function(){
+  tabOpenLink('file:///home/marwan/m.html')
+});
 
 // }}}
 // maps {{{
