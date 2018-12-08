@@ -1421,7 +1421,7 @@ google-chrome()
 mail()
 {
   _initialize_mutt_panes
-  $TERMINAL_EMULATOR tmux attach-session -t mail 2>/dev/null 1>&2 & disown
+  $TERMINAL_EMULATOR tmux attach-session -t mail:1.0 2>/dev/null 1>&2 & disown
 }
 
 mutt-pub()
