@@ -1264,63 +1264,34 @@ fi
 
 # }}}
 # misc shortcuts {{{
+# {{{ utils
 
 cp()
 {
-	builtin command cp -v "$@"
+  builtin command cp -v "$@"
 }
 
 mv()
 {
-	builtin command mv -v "$@"
+  builtin command mv -v "$@"
 }
 
 rm()
 {
-	builtin command rm -v "$@"
+  builtin command rm -v "$@"
 }
 
 chmod()
 {
-	builtin command chmod -v "$@"
+  builtin command chmod -v "$@"
 }
 
 chown()
 {
-	builtin command chown -v "$@"
+  builtin command chown -v "$@"
 }
 
-song()
-{
-	format="file"
-	track="$(mpc -f "%$format%" current)"
-	if echo "$track" | grep -i -q "^http://.*"; then
-		format="title"
-	fi
-	basename "$(mpc -f "%$format%" current)" ".mp3"
-}
-
-csong()
-{
-  song | xclip -selection c
-}
-
-google-chrome()
-{
-    	command google-chrome --allow-outdated-plugins "$@" >/dev/null 2>/dev/null & disown
-}
-
-vlc()
-{
-    	command vlc "$@" >/dev/null 2>/dev/null & disown
-}
-
-audacious()
-{
-  command audacious "$@" >/dev/null 2>&1 & disown
-}
-
-help()
+function help()
 {
   builtin help "$@" | less
 }
@@ -1340,70 +1311,19 @@ mkdir()
   command mkdir -v -p "$@"
 }
 
-music()
-{
-  tmux send-keys -t "media:0.0" C-z 'ncmpcpp' Enter
-	$TERMINAL_EMULATOR tmux attach-session -t media 2>/dev/null 1>&2 & disown
-}
-
-mail()
-{
-  initialize_mutt_panes
-	$TERMINAL_EMULATOR tmux attach-session -t mail 2>/dev/null 1>&2 & disown
-}
-
-mutt-pub()
-{
-	/usr/bin/mutt -F ~/.muttrc.pub
-}
-
-mutt-priv()
-{
-	/usr/bin/mutt -F ~/.muttrc.priv
-}
-
-initialize_mutt_panes()
-{
-  tmux send-keys -t "mail:0.0" C-z 'mutt-priv' Enter
-  tmux send-keys -t "mail:1.0" C-z 'mutt-pub' Enter
-}
-
 dlocate()
 {
-	command dlocate "$@" | less
-}
-
-aptitude()
-{
-	for i in "$@"; do
-		if [ "$i" = aptitude ]; then
-			continue;
-		fi
-
-		if echo "$i" | egrep -q "^[^-]"; then
-			# Not console mode so pipe to less.
-			command aptitude "$@" | less
-			return;
-		fi
-	done
-
-	# aptitude will start in console mode.
-	command aptitude "$@"
-}
-
-dpkg()
-{
-	command dpkg "$@" | less
+  command dlocate "$@" | less
 }
 
 s2ram()
 {
-	sudo pm-suspend
+  sudo pm-suspend
 }
 
 s2disk()
 {
-	sudo pm-hibernate
+  sudo pm-hibernate
 }
 
 sb()
@@ -1421,24 +1341,9 @@ rmf()
   command rm -rvf "$@"
 }
 
-apt-get()
-{
-  sudo apt-get -y "$@"
-}
-
-aptitude()
-{
-  sudo aptitude -y "$@"
-}
-
 function grep()
 {
   command grep "$@" | command grep -v 'grep'
-}
-
-mpv()
-{
-  command mpv --loop "$@"
 }
 
 z()
@@ -1451,14 +1356,134 @@ function find()
   fd "$@"
 }
 
-cam()
-{
-  mplayer tv://
-}
-
 killall()
 {
   command killall -v "$@"
 }
 
+# }}}
+# {{{ media
+
+song()
+{
+  format="file"
+  track="$(mpc -f "%$format%" current)"
+
+  if echo "$track" | grep -i -q "^http://.*"; then
+    format="title"
+  fi
+
+  basename "$(mpc -f "%$format%" current)" ".mp3"
+}
+
+csong()
+{
+  song | xclip -selection c
+}
+
+vlc()
+{
+  command vlc "$@" >/dev/null 2>/dev/null & disown
+}
+
+audacious()
+{
+  command audacious "$@" >/dev/null 2>&1 & disown
+}
+
+music()
+{
+  tmux send-keys -t "media:0.0" C-z 'ncmpcpp' Enter
+  $TERMINAL_EMULATOR tmux attach-session -t media 2>/dev/null 1>&2 & disown
+}
+
+mpv()
+{
+  command mpv --loop "$@"
+}
+
+cam()
+{
+  mplayer tv://
+}
+
+# }}}
+# {{{ web
+
+google-chrome()
+{
+  command google-chrome --allow-outdated-plugins "$@" >/dev/null 2>/dev/null & disown
+}
+
+# }}}
+# {{{ mail
+
+mail()
+{
+  _initialize_mutt_panes
+  $TERMINAL_EMULATOR tmux attach-session -t mail 2>/dev/null 1>&2 & disown
+}
+
+mutt-pub()
+{
+  /usr/bin/mutt -F ~/.muttrc.pub
+}
+
+mutt-priv()
+{
+  /usr/bin/mutt -F ~/.muttrc.priv
+}
+
+mutt-work()
+{
+  /usr/bin/mutt -F ~/.muttrc.work
+}
+
+_initialize_mutt_panes()
+{
+  i=0
+
+  for profile in work priv pub; do
+    tmux send-keys -t "mail:$i.0" C-z "mutt-$profile" Enter
+    ((i++))
+  done
+}
+
+# }}}
+# {{{ pkg
+
+dpkg()
+{
+  command dpkg "$@" | less
+}
+
+apt-get()
+{
+  sudo apt-get -y "$@"
+}
+
+aptitude()
+{
+  _aptitude -y "$@"
+}
+
+_aptitude()
+{
+  for i in "$@"; do
+    if [ "$i" = aptitude ]; then
+      continue;
+    fi
+
+    if echo "$i" | egrep -q "^[^-]"; then
+      # Not console mode so pipe to less.
+      sudo aptitude "$@" | less
+      return;
+    fi
+  done
+
+  # aptitude will start in console mode.
+  sudo aptitude "$@"
+}
+
+# }}}
 # }}}
