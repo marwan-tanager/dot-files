@@ -8,9 +8,9 @@
   alt + o
 "mpc toggle"
   control + space
-"xbacklight -inc 7 -steps 1 -time 1"
+"xbacklight -inc 3 -steps 1 -time 1"
   alt + n
-"xbacklight -dec 7 -steps 1 -time 1"
+"xbacklight -dec 3 -steps 1 -time 1"
   alt + v
 "/home/marwan/bin/volume-up"
   alt + i
