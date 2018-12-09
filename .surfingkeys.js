@@ -2,8 +2,8 @@
 
 Hints.characters = 'abcdeghilmnopqrstuvwxyz23489';
 Hints.scrollKeys = '';
-Hints.style("font-size: 11pt; -webkit-text-fill-color: white; background: initial; background-color: orangered;");
-Hints.style("font-size: 11pt; -webkit-text-fill-color: white; background: green;", 'text');
+Hints.style("font-size: 10pt; -webkit-text-fill-color: white; background: initial; background-color: orangered;");
+Hints.style("font-size: 10pt; -webkit-text-fill-color: white; background: green;", 'text');
 
 // }}}
 // theme {{{
@@ -96,7 +96,7 @@ settings.scrollFriction = 0;
 settings.modeAfterYank = 'Normal';
 settings.richHintsForKeystroke = 500;
 settings.showModeStatus = false;
-settings.omnibarSuggestion = false;
+settings.omnibarSuggestion = true;
 settings.omnibarPosition = 'middle'
 settings.hintAlign = 'left';
 settings.newTabPosition = 'last';
@@ -123,7 +123,7 @@ mapkey('<Ctrl-t>', 'New tab', function(){
   window.open('http://google.com')
 });
 
-mapkey('<Ctrl-s>', '#12Open Chrome Settings', function() {
+mapkey('<Ctrl-P>', '#12Open Chrome Settings', function() {
   tabOpenLink("chrome://settings");
 });
 
