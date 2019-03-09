@@ -1,9 +1,9 @@
 // hints {{{
 
-Hints.characters = 'abcdeghilmnopqrstuvwxyz23489';
+Hints.characters = '12345890-';
 Hints.scrollKeys = '';
-Hints.style("font-size: 10pt; -webkit-text-fill-color: white; background: initial; background-color: orangered;");
-Hints.style("font-size: 10pt; -webkit-text-fill-color: white; background: green;", 'text');
+Hints.style("font-size: 12pt; -webkit-text-fill-color: white; background: initial; background-color: orangered;");
+Hints.style("font-size: 12pt; -webkit-text-fill-color: white; background: green;", 'text');
 
 // }}}
 // theme {{{
@@ -61,6 +61,7 @@ settings.theme = `
 
 .sk_theme #sk_omnibarSearchResult>ul>li.focused {
     background: #7CFC00;
+    color: #FFFFFF;
 }
 
 .sk_theme #sk_omnibarSearchResult>ul>li.focused>div.title {
@@ -117,7 +118,7 @@ settings.defaultSearchEngine = "g";
 
 mapkey('f', '', function() {
   Hints.create("", Hints.dispatchMouseClick, {tabbed: true, active: true});
-}, { domain: /wikipedia|ycombinator.com/ });
+}, { domain: /wikipedia|ycombinator.com|duckduckgo/ });
 
 mapkey('<Ctrl-t>', 'New tab', function(){
   window.open('http://google.com')
@@ -184,6 +185,7 @@ cmap('<Ctrl-b>', '<Ctrl-,>');
 
 addSearchAliasX('t', 'Google Translate', 'https://translate.google.com/#en/ar/');
 addSearchAliasX('w', 'Wikipedia', 'https://en.wikipedia.org?search=');
+addSearchAliasX('i', 'IMDB', 'https://www.imdb.com/find?s=all&q=');
 
 mapkey(';t', 'Translate selected text with google', function() {
     searchSelectedWith('https://translate.google.com/?hl=en#auto/en/', false, false, '');
@@ -197,9 +199,6 @@ unmap('<Ctrl-0>');
 unmap('<Ctrl-1>');
 unmap('<Ctrl-j>');
 unmap(',');
-unmap('e', /instabug.atlassian/);
-unmap('.', /instabug.atlassian/);
-unmap('m', /instabug.atlassian/);
 iunmap(":");
 
 // }}}

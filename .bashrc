@@ -154,6 +154,96 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 export RUBY_GEM_SYSTEM_DEPENDENCIES_SERVICE_URI='http://localhost:3000/'
 eval "$(rbenv init -)"
 
+r()
+{
+  ./bin/rails "$@"
+}
+
+rs()
+{
+  r s "$@"
+}
+
+rc()
+{
+  r c "$@"
+}
+
+rk()
+{
+  ./bin/rake "$@"
+}
+
+rg()
+{
+  r g "$@"
+}
+
+rgm()
+{
+  rg migration "$@"
+}
+
+b()
+{
+  bundle "$@"
+}
+
+be()
+{
+  b exec "$@"
+}
+
+cop()
+{
+  be rubocop "$@"
+}
+
+copa()
+{
+  cop -a  "$@"
+}
+
+rdbm()
+{
+  rk db:migrate
+}
+
+rdbr()
+{
+  rk db:drop db:create db:migrate db:seed
+}
+
+rr()
+{
+  rk routes | grep -i "$1"
+}
+
+spec()
+{
+  RAILS_ENV=test DATABASE_URL='postgres://marwan:marwan@localhost/idion-rails_test' be rspec "$@"
+}
+
+bi()
+{
+  b install
+}
+
+rgs()
+{
+  r g scaffold "$@" --no-assets --no-view-specs --no-helper-specs --no-controller-specs --no-decorator --no-jbuilder --no-helper --skip
+}
+
+rds()
+{
+  r destroy scaffold "$@"
+}
+
+chk()
+{
+  cop && spec
+}
+
 # }}}
 # java {{{
 
@@ -1281,6 +1371,11 @@ rm()
   builtin command rm -v "$@"
 }
 
+rmr()
+{
+  rm -r "$@"
+}
+
 chmod()
 {
   builtin command chmod -v "$@"
@@ -1348,7 +1443,7 @@ function grep()
 
 z()
 {
-  command zathura "$@"
+  command zathura "$@" & disown
 }
 
 function find()
@@ -1407,6 +1502,11 @@ cam()
   mplayer tv://
 }
 
+feh()
+{
+  command feh --auto-rotate "$@"
+}
+
 # }}}
 # {{{ web
 
@@ -1462,28 +1562,7 @@ apt-get()
   sudo apt-get -y "$@"
 }
 
-aptitude()
-{
-  _aptitude -y "$@"
-}
-
-_aptitude()
-{
-  for i in "$@"; do
-    if [ "$i" = aptitude ]; then
-      continue;
-    fi
-
-    if echo "$i" | egrep -q "^[^-]"; then
-      # Not console mode so pipe to less.
-      sudo aptitude "$@" | less
-      return;
-    fi
-  done
-
-  # aptitude will start in console mode.
-  sudo aptitude "$@"
-}
 
 # }}}
+
 # }}}

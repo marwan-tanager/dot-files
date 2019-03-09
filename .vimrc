@@ -41,6 +41,7 @@ Plugin 'tpope/vim-rake'
 Plugin 'tpope/vim-bundler'
 Plugin 'tpope/gem-ctags'
 Plugin 'tpope/gem-browse'
+Plugin 'tommcdo/vim-fubitive'
 call vundle#end()
 
 " }}}
@@ -153,6 +154,8 @@ augroup formatting
   au FileType slack      set fo=cqrj
   au FileType go         set fo=cqrj
   au FileType dockerfile set fo=cqrj
+  au FileType scss       set fo=cqrj
+  au BufNewFile,BufRead .env.example set fo=cqrj
 augroup END
 
 " }}}
@@ -190,13 +193,16 @@ let g:gutentags_add_default_project_roots = 1
 au BufNewFile,BufRead *[jJ]enkins*file* set filetype=groovy
 au BufNewFile,BufRead *[dD]ocker*file*  set filetype=dockerfile
 au BufNewFile,BufRead *.rake set filetype=ruby
+au BufNewFile,BufRead *.m3u set filetype=m3u
 
 " }}}
 " folding {{{
 
+set foldmethod=marker
+
 augroup folding
   au!
-  au FileType vim,sh,conf setlocal foldmethod=marker
+  " au FileType vim,sh,conf setlocal foldmethod=marker
   " au FileType go setlocal foldmethod=syntax
   au BufNewFile,BufRead * if expand('%:t') == '.surfingkeys.js' | set foldmethod=marker | endif
 augroup END
@@ -254,6 +260,10 @@ nmap <c-a> <Plug>MoveMotionPlug
 nmap <c-a>a <Plug>MoveMotionLinePlug
 vmap d <c-a>
 nmap dd <c-a>a
+
+let blacklist = ['mail']
+
+" autocmd BufNewFile,BufRead *mutt* if index(blacklist, &ft) < 0 | do vmap d <c-a> | nmap dd <c-a>a
 
 " }}}
 " misc {{{
@@ -368,9 +378,11 @@ au TabLeave * let g:lasttab = tabpagenr()
 nmap <leader>cf :ClearQuickfixList<cr>:only<cr>
 nnoremap <leader>df :DeleteCurrentFile<cr>
 nnoremap <leader>q :qa<cr>
+inoremap <leader>q <c-c>:qa<cr>
 nnoremap <leader>h :hide<cr>
 nnoremap <leader>v :call RubocopAutocorrect()<cr><cr>
 nnoremap <leader>cit :CopyBufferToInstabugBackendAtTunneler<cr><cr>
+nnoremap <leader>dr :edit ~/draft.txt<cr>
 
 "}}}
 " fzf {{{

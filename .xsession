@@ -36,7 +36,7 @@ disalbe_screen_blanking()
   xset s off -dpms
 }
 
-redshift &
+# redshift &
 start_xbindkeys
 set_keyboard_speed
 disalbe_screen_blanking
